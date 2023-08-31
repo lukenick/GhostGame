@@ -1,0 +1,71 @@
+<canvas id="myCanvas" width="800" height="600" style="border:1px solid #000000;">
+
+<script>
+
+function setup(){
+	// Create screen
+    canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.imageSmoothingEnabled = false; // Makes images appear pixelated rather than blurry
+
+	// Load assets (currently just images)
+    ghostImg = new Image()
+    ghostImg.src = "Images/ghost.png";
+    wizardImg = new Image()
+    wizardImg.src = "Images/wizard.png";
+	
+	// Game Variables
+    screenWidth = 800;
+    screenHeight = 600;
+	tick = 0;
+	
+	// Entity Variables
+	ghostX = 200;
+	ghostY = 400;
+	ghostWidth = 16*4;
+	ghostHeight = 24*4;
+	
+	wizardX = 500;
+	wizardY = 400;
+	wizardWidth = 14*6;
+	wizardHeight = 24*6;
+	
+}
+
+function mainLoop(){
+	update();
+	draw();
+}
+
+function update(){
+	tick += 1;
+}
+
+function draw(){
+	// Draw background
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, screenWidth, screenHeight);
+
+	// Draw ghost
+	ctx.drawImage(ghostImg, ghostX, ghostY, ghostWidth, ghostHeight)
+	
+	// Draw wizard
+	ctx.drawImage(wizardImg, wizardX, wizardY, wizardWidth, wizardHeight)
+	
+}
+
+// Listen out for key presses
+window.addEventListener('keydown',e => {
+        if (e.keyCode ==37 || e.keyCode ==65){ // Left Arrow or A
+            ghostX -= 4;
+        }
+        if (e.keyCode ==39 || e.keyCode ==68){ // Right Arrow or D
+            ghostX += 4;
+        }
+})
+
+// Code starts running here
+setup()
+setInterval(mainLoop, 10) // 100 Frames Per Second
+
+</script>
