@@ -2,6 +2,18 @@
 
 <script>
 
+// This teaches the program what a fireball is like
+class Fireball{
+	constructor(x, y, xSpeed, ySpeed) {
+ 		this.x = x;
+ 		this.y = y;
+ 		this.xSpeed = xSpeed;
+ 		this.ySpeed = ySpeed;
+		this.width = 16;
+		this.height = 16;
+ 	}
+}
+
 function setup(){
 	// Create screen
     canvas = document.getElementById("myCanvas");
@@ -13,6 +25,8 @@ function setup(){
     ghostImg.src = "Images/ghost.png";
     wizardImg = new Image()
     wizardImg.src = "Images/wizard.png";
+	fireballImg = new Image()
+    fireballImg.src = "Images/fireball.png";
 	
 	// Game Variables
     screenWidth = 800;
@@ -30,6 +44,8 @@ function setup(){
 	wizardWidth = 14*6;
 	wizardHeight = 24*6;
 	
+	// This will be a list of all the fireballs currently in our Game
+	fireballs = [] // It starts off empty though
 }
 
 function mainLoop(){
@@ -39,6 +55,17 @@ function mainLoop(){
 
 function update(){
 	tick += 1;
+	
+	// Move each of the fireballs based on their speed 
+	for (i in fireballs){
+		fireballs[i].x += fireballs[i].xSpeed;
+		fireballs[i].y += fireballs[i].ySpeed;
+	}
+	
+	// If the current tick is a multiple of 200 then make a fireball going left
+	if (tick % 200 == 0){
+		fireballs.push(new Fireball(wizardX, wizardY, -5, 2))
+	}
 }
 
 function draw(){
@@ -52,6 +79,10 @@ function draw(){
 	// Draw wizard
 	ctx.drawImage(wizardImg, wizardX, wizardY, wizardWidth, wizardHeight)
 	
+	// Draw each of the fireballs
+	for (i in fireballs){
+    	ctx.drawImage(fireballImg, fireballs[i].x, fireballs[i].y, fireballs[i].width, fireballs[i].height);
+	}
 }
 
 // Listen out for key presses
